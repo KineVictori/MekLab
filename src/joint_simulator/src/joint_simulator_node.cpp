@@ -74,10 +74,10 @@ void jointSimulatorNode::readMessage(std_msgs::msg::Float64::UniquePtr msg) {
 }
 
 void jointSimulatorNode::readParam() {
-	double myParam = this->get_parameter("K");
+	double myParam = this->get_parameter("K").as_double();
 	simulator.set_K(myParam);
 
-	RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", K);
+	RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", myParam);
 }
 
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
