@@ -41,6 +41,8 @@ class jointSimulatorNode : public rclcpp::Node {
 public:
 
     jointSimulatorNode();
+	void update();
+	void readMessage(std_msgs::msg::Float64::UniquePtr msg);
 
 private:
 

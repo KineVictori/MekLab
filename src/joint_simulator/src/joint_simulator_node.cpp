@@ -1,4 +1,5 @@
 
+#include <functional>
 #include "joint_simulator_node.hpp"
 
 jointSimulator::jointSimulator() {
@@ -49,35 +50,36 @@ double jointSimulator::get_K() {
         return this->K;
 }
 
+void publishMessage(double messageValue) {
+	auto message = std_msgs::msg::Float64();
+    message.data = messageValue;
+	this->publisher_->publish(message);
+
+	// Publishes debug/message to the console.
+	RCLCPP_INFO(this->get_logger(), "Publishing: '%f'", message.data);
+    // Kan også bruke "ros2 topic echo /angle"
+	// Aka: ros2 topic echo /Lab1KineaAngle
+}
+
+void jointSimulatorNode::update() {
+
+	simulator.update();
+	publishMessage(simulator.get_angle());
+}
+
+void jointSimulatorNode::readMessage(std_msgs::msg::Float64::UniquePtr msg) {
+	RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->data);
+
+	simulator.set_voltage(msg->data);
+}
+
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
     publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1KineaAngle", 10);
-    auto timer_callback =
-            [this]() -> void {
 
-                simulator.update();
+    timer_ = this->create_wall_timer(100ms, std::bind(&jointSimulatorNode::update, this));
 
-                auto message = std_msgs::msg::Float64();
-                message.data = simulator.get_angle();
-
-				// Publishes debug/message to the console.
-				RCLCPP_INFO(this->get_logger(), "Publishing: '%f'", simulator.get_K());
-                // Kan også bruke "ros2 topic echo /angle"
-				// Aka: ros2 topic echo /Lab1KineaAngle
-
-				this->publisher_->publish(message);
-            };
-
-    timer_ = this->create_wall_timer(100ms, timer_callback);
-
-	auto topic_callback =
-		[this](std_msgs::msg::Float64::UniquePtr msg) -> void {
-	  		// Published debug/message to the console.
-			RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->data);
-
-			simulator.set_voltage(msg->data);
-		};
-	subscription_ = this->create_subscription<std_msgs::msg::Float64>("Lab1KineaVoltage", 10, topic_callback);
+	subscription_ = this->create_subscription<std_msgs::msg::Float64>("Lab1KineaVoltage", 10, std::bind(&jointSimulatorNode::readMessage, this, std::placeholders::_1));
 
 	this->declare_parameter("noise", 0.0);
 	this->declare_parameter("K", 230.0);
