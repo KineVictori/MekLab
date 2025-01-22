@@ -96,7 +96,7 @@ void jointSimulatorNode::parameter_callback(const std::vector<rclcpp::Parameter>
 				this->simulator.set_noise(noise);
 				RCLCPP_INFO(this->get_logger(), "Noise parameter updated: %f", noise);
 			} else {
-				RCLCPP_INFO(this->get_logger(), "Noise parameter must be more than zero, not: %f", noise);
+				RCLCPP_INFO(this->get_logger(), "Noise parameter must be more than zero!");
 			}
 		}
 		else if (param.get_name() == "K")
