@@ -47,7 +47,7 @@ void jointSimulator::set_noise(double noise) {
 	this->noise = noise;
 }
 
-jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator(0.0, 0.0, 0.0, 1.0) {
+jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator() {
 
     publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1Kinea", 10);
     auto timer_callback =

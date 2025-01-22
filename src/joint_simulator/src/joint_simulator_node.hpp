@@ -7,7 +7,7 @@
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/Float64.hpp"
 
 using namespace std::chrono_literals;
 
