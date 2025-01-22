@@ -93,7 +93,7 @@ void parameter_callback(const std::vector<rclcpp::Parameter> &params)
 			if (param.as_double() >= 0.0)
 			{
 				double noise = param.as_double();
-				simulator.set_noise(noise);
+				this->simulator.set_noise(noise);
 				RCLCPP_INFO(this->get_logger(), "Noise parameter updated: %f", noise);
 			} else {
 				RCLCPP_INFO(this->get_logger(), "Noise parameter must be more than zero, not: %f", noise);
@@ -102,13 +102,13 @@ void parameter_callback(const std::vector<rclcpp::Parameter> &params)
 		else if (param.get_name() == "K")
 		{
 			K = param.as_double();
-			simulator.set_k(K);
+			this->simulator.set_k(K);
 			RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", K);
 		}
 		else if (param.get_name() == "T")
 		{
 			T = param.as_double();
-			simulator.set_t(T);
+			this->simulator.set_t(T);
 			RCLCPP_INFO(this->get_logger(), "T parameter updated: %f", T);
 		}
 	}
