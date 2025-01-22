@@ -45,7 +45,7 @@ private:
     jointSimulator simulator;
 
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<std_msgs::msg::float64>::SharedPtr publisher_;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
 };
 
 #endif //MEKLAB_JOINT_SIMULATOR_NODE_HPP
