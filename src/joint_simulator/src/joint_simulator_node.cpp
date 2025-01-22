@@ -59,9 +59,9 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
                 message.data = simulator.get_angle();
 
 				// Publishes debug/message to the console.
-				// RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
+				RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
                 // Kan også bruke "ros2 topic echo /angle"
-				// Aka: ros2 topic echo /Lab1Kinea
+				// Aka: ros2 topic echo /Lab1KineaAngle
 
 				this->publisher_->publish(message);
             };
