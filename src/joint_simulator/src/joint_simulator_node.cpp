@@ -49,16 +49,21 @@ void jointSimulator::set_noise(double noise) {
 
 jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator(0.0, 0.0, 0.0, 1.0) {
 
-    publisher_ = this->create_publisher<std_msgs::msg::String>("Lab1Kinea", 10);
+    publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1Kinea", 10);
     auto timer_callback =
             [this]() -> void {
 
                 simulator.update();
 
-                auto message = std_msgs::msg::String();
-                message.data = std::to_string(simulator.get_angle());
-                RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-                this->publisher_->publish(message);
+                auto message = std_msgs::msg::Float64();
+                message.data = simulator.get_angle();
+
+				// Publishes debug/message to the console.
+				// RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
+                // Kan også bruke "ros2 topic echo /angle"
+				// Aka: ros2 topic echo /Lab1Kinea
+
+				this->publisher_->publish(message);
             };
 
     timer_ = this->create_wall_timer(100ms, timer_callback);
