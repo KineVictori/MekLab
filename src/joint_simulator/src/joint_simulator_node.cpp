@@ -49,13 +49,13 @@ void jointSimulator::set_noise(double noise) {
 
 jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator() {
 
-    publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1Kinea", 10);
+    publisher_ = this->create_publisher<std_msgs::msg::float64>("Lab1Kinea", 10);
     auto timer_callback =
             [this]() -> void {
 
                 simulator.update();
 
-                auto message = std_msgs::msg::Float64();
+                auto message = std_msgs::msg::float64();
                 message.data = simulator.get_angle();
 
 				// Publishes debug/message to the console.
