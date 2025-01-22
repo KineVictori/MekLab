@@ -47,6 +47,8 @@ private:
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
 	rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subscription_;
+
+	rcl_interfaces::msg::SetParametersResult parameter_callback(conststd::vector<rclcpp::Parameter> &params);
 };
 
 #endif //MEKLAB_JOINT_SIMULATOR_NODE_HPP
