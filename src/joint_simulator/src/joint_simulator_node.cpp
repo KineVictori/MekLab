@@ -92,7 +92,7 @@ rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(
 	rcl_interfaces::msg::SetParametersResult result;
 	result.successful = false;
 	
-	// this->get_parameter("K", this->simulator.K);
+	this->get_parameter("K", this->simulator.K);
 	
 	for (const auto &param : params)
 	{
