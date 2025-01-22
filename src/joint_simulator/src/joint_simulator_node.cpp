@@ -1,11 +1,14 @@
 
 #include "joint_simulator_node.hpp"
 
-jointSimulator::jointSimulator(double angle, double angular_velocity, double noise, double voltage) {
-  this->angle = angle;
-  this->angular_velocity = angular_velocity;
-  this->noise = noise;
-  this->voltage = voltage;
+jointSimulator::jointSimulator() {
+	this->angle = 0.0;
+	this->angular_velocity = 0.0;
+	this->voltage = 0.0;
+
+	this->K = 230.0;
+	this->T = 0.15;
+    this->noise = 0.0;
 
   this->prevTime = std::chrono::high_resolution_clock::now();
 }
@@ -32,6 +35,17 @@ void jointSimulator::set_voltage(double voltage) {
     this->voltage = voltage;
 }
 
+void jointSimulator::set_T(double T) {
+    this->T = T;
+}
+
+void jointSimulator::set_K(double K) {
+	this->K = K;
+}
+
+void jointSimulator::set_noise(double noise) {
+	this->noise = noise;
+}
 
 jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator(0.0, 0.0, 0.0, 1.0) {
 
@@ -46,6 +60,7 @@ jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator(0.0
                 RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
                 this->publisher_->publish(message);
             };
+
     timer_ = this->create_wall_timer(100ms, timer_callback);
 }
 

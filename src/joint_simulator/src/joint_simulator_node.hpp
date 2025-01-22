@@ -16,16 +16,23 @@ private:
 
     double angle;
     double angular_velocity;
-    double noise;
     double voltage;
+
+    double K;
+    double T;
+    double noise;
 
     std::chrono::time_point<std::chrono::high_resolution_clock> prevTime;
 public:
 
-    jointSimulator(double angle, double angular_velocity, double noise, double voltage);
+    jointSimulator();
     void update();
     double get_angle();
     void set_voltage(double voltage);
+
+    void set_K(double K);
+    void set_T(double T);
+    void set_noise(double noise);
 };
 
 class jointSimulatorNode : public rclcpp::Node {
