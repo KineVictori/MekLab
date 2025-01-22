@@ -84,7 +84,7 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 	this->add_on_set_parameters_callback(std::bind(&jointSimulatorNode::parameter_callback, this, std::placeholders::_1));
 }
 
-void parameter_callback(const std::vector<rclcpp::Parameter> &params)
+void jointSimulatorNode::parameter_callback(const std::vector<rclcpp::Parameter> &params)
 {
 	for (const auto &param : params)
 	{

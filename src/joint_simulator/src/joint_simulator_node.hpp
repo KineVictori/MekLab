@@ -48,7 +48,7 @@ private:
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
 	rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subscription_;
 
-	rcl_interfaces::msg::SetParametersResult parameter_callback(const std::vector<rclcpp::Parameter> &params);
+	void parameter_callback(const std::vector<rclcpp::Parameter> &params);
 };
 
 #endif //MEKLAB_JOINT_SIMULATOR_NODE_HPP
