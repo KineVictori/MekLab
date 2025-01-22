@@ -45,12 +45,14 @@ public:
 
 	void publishMessage(double messageData);
 	void readMessage(std_msgs::msg::Float64::UniquePtr msg);
+	void readParam();
 
 private:
 
     jointSimulator simulator;
 
-    rclcpp::TimerBase::SharedPtr timer_;
+	rclcpp::TimerBase::SharedPtr timerParam_;
+    rclcpp::TimerBase::SharedPtr timerPublish_;
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
 	rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subscription_;
 
