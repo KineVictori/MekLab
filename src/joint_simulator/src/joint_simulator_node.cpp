@@ -15,6 +15,7 @@ public:
     jointSimulator(double angle, double angular_velocity, double noise, double voltage);
     void update();
     void get_angle();
+    void set_voltage(double voltage);
 };
 
 jointSimulator::jointSimulator(double angle, double angular_velocity, double noise, double voltage) {
@@ -36,4 +37,12 @@ void jointSimulator::update() {
 
     angle += dt * angular_velocity;
     angular_velocity += dt * (-angular_velocity * K * voltage / T);
+}
+
+void jointSimulator::get_angle() {
+    return angle;
+}
+
+void jointSimulator::set_voltage(double voltage) {
+    this->voltage = voltage;
 }
