@@ -101,14 +101,14 @@ void jointSimulatorNode::parameter_callback(const std::vector<rclcpp::Parameter>
 		}
 		else if (param.get_name() == "K")
 		{
-			K = param.as_double();
-			this->simulator.set_k(K);
+			double K = param.as_double();
+			this->simulator.set_K(K);
 			RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", K);
 		}
 		else if (param.get_name() == "T")
 		{
-			T = param.as_double();
-			this->simulator.set_t(T);
+			double T = param.as_double();
+			this->simulator.set_T(T);
 			RCLCPP_INFO(this->get_logger(), "T parameter updated: %f", T);
 		}
 	}
