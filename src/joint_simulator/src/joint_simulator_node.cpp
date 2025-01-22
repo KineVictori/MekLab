@@ -77,7 +77,12 @@ void jointSimulatorNode::readParam() {
 	double myParam = this->get_parameter("K").as_double();
 	simulator.set_K(myParam);
 
-	RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", myParam);
+	myParam = this->get_parameter("T").as_double();
+	simulator.set_T(myParam);
+
+	myParam = this->get_parameter("noise").as_double();
+	simulator.set_noise(myParam);
+
 }
 
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
