@@ -47,7 +47,7 @@ void jointSimulator::set_noise(double noise) {
 	this->noise = noise;
 }
 
-jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator() {
+jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
     publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1Kinea", 10);
     auto timer_callback =
@@ -67,6 +67,15 @@ jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator() {
             };
 
     timer_ = this->create_wall_timer(100ms, timer_callback);
+
+	auto topic_callback =
+		[this](std_msgs::msg::Float64::UniquePtr msg) -> void {
+	  		// Published debug/message to the console.
+			RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
+
+			simulator.set_voltage(msg->data);
+		};
+	subscribtion_ = this->create_subscription<std_msgs::msg::Float64>("Lab1Kinea", 10, topic_callback);
 }
 
 

@@ -12,20 +12,20 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 # Add the executable and include all required source files
-add_executable(talker
+add_executable(RunJointSim
         src/main.cpp
         src/joint_simulator_node.cpp
 )
 
 # Link dependencies
-ament_target_dependencies(talker
+ament_target_dependencies(RunJointSim
         rclcpp
         std_msgs
 )
 
 # Install the executable
 install(TARGETS
-        talker
+        RunJointSim
         DESTINATION lib/${PROJECT_NAME}
 )
 
