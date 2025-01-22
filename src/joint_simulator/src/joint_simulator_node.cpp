@@ -71,11 +71,11 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 	auto topic_callback =
 		[this](std_msgs::msg::Float64::UniquePtr msg) -> void {
 	  		// Published debug/message to the console.
-			RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
+			RCLCPP_INFO(this->get_logger(), "I heard: '%s'", std::to_string(msg->data));
 
 			simulator.set_voltage(msg->data);
 		};
-	subscribtion_ = this->create_subscription<std_msgs::msg::Float64>("Lab1Kinea", 10, topic_callback);
+	subscription_ = this->create_subscription<std_msgs::msg::Float64>("Lab1Kinea", 10, topic_callback);
 }
 
 
