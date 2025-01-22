@@ -24,7 +24,7 @@ public:
 
     jointSimulator(double angle, double angular_velocity, double noise, double voltage);
     void update();
-    void get_angle();
+    double get_angle();
     void set_voltage(double voltage);
 };
 
@@ -34,9 +34,11 @@ public:
     jointSimulatorNode();
 
 private:
+
+    jointSimulator simulator;
+
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-    size_t count_;
 };
 
 #endif //MEKLAB_JOINT_SIMULATOR_NODE_HPP

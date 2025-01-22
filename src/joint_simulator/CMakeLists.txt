@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.8)
 project(joint_simulator)
 
@@ -10,11 +11,23 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(talker src/main.cpp)
-ament_target_dependencies(talker rclcpp std_msgs)
+# Add the executable and include all required source files
+add_executable(talker
+        src/main.cpp
+        src/joint_simulator_node.cpp
+)
 
+# Link dependencies
+ament_target_dependencies(talker
+        rclcpp
+        std_msgs
+)
+
+# Install the executable
 install(TARGETS
         talker
-        DESTINATION lib/${joint_simulator})
+        DESTINATION lib/${PROJECT_NAME}
+)
 
+# Mark this package as an ament package
 ament_package()

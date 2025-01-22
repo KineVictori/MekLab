@@ -6,6 +6,8 @@ jointSimulator::jointSimulator(double angle, double angular_velocity, double noi
   this->angular_velocity = angular_velocity;
   this->noise = noise;
   this->voltage = voltage;
+
+  this->prevTime = std::chrono::high_resolution_clock::now();
 }
 
 void jointSimulator::update() {
@@ -19,10 +21,10 @@ void jointSimulator::update() {
     auto dt = duration.count();
 
     angle += dt * angular_velocity;
-    angular_velocity += dt * (-angular_velocity * K * voltage / T);
+    angular_velocity += dt * (-angular_velocity / T - K * voltage / T);
 }
 
-void jointSimulator::get_angle() {
+double jointSimulator::get_angle() {
     return angle;
 }
 
@@ -31,16 +33,20 @@ void jointSimulator::set_voltage(double voltage) {
 }
 
 
-jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), count_(0) {
+jointSimulatorNode::jointSimulatorNode(): Node("Angle_Publisher"), simulator(0.0, 0.0, 0.0, 1.0) {
+
     publisher_ = this->create_publisher<std_msgs::msg::String>("Lab1Kinea", 10);
     auto timer_callback =
             [this]() -> void {
+
+                simulator.update();
+
                 auto message = std_msgs::msg::String();
-                message.data = "Hello, world! " + std::to_string(this->count_++);
+                message.data = std::to_string(simulator.get_angle());
                 RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
                 this->publisher_->publish(message);
             };
-    timer_ = this->create_wall_timer(500ms, timer_callback);
+    timer_ = this->create_wall_timer(100ms, timer_callback);
 }
 
 
