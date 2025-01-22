@@ -41,10 +41,3 @@ private:
 
 #endif //MEKLAB_JOINT_SIMULATOR_NODE_HPP
 
-int main(int argc, char * argv[])
-{
-    rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<jointSimulatorNode>());
-    rclcpp::shutdown();
-    return 0;
-}
