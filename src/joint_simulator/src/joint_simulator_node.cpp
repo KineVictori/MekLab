@@ -71,7 +71,7 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 	auto topic_callback =
 		[this](std_msgs::msg::Float64::UniquePtr msg) -> void {
 	  		// Published debug/message to the console.
-			RCLCPP_INFO(this->get_logger(), "I heard: '%s'", std::to_string(msg->data));
+			RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->data);
 
 			simulator.set_voltage(msg->data);
 		};
