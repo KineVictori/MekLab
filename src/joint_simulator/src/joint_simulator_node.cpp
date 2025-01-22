@@ -46,7 +46,7 @@ void jointSimulator::set_noise(double noise) {
 }
 
 double jointSimulator::get_K() {
-        return K;
+        return this->K;
 }
 
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
@@ -91,6 +91,8 @@ rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(
 	
 	rcl_interfaces::msg::SetParametersResult result;
 	result.successful = false;
+	
+	// this->get_parameter("K", this->simulator.K);
 	
 	for (const auto &param : params)
 	{
