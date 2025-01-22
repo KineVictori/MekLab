@@ -33,6 +33,8 @@ public:
     void set_K(double K);
     void set_T(double T);
     void set_noise(double noise);
+    
+    double get_K();
 };
 
 class jointSimulatorNode : public rclcpp::Node {

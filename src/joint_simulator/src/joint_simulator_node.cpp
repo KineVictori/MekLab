@@ -6,7 +6,7 @@ jointSimulator::jointSimulator() {
 	this->angular_velocity = 0.0;
 	this->voltage = 0.0;
 
-	this->K = 230.0;
+	this->K = 200.0;
 	this->T = 0.15;
     this->noise = 0.0;
 
@@ -14,8 +14,6 @@ jointSimulator::jointSimulator() {
 }
 
 void jointSimulator::update() {
-    double K = 230.0;
-    double T = 0.15;
 
     auto currTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = currTime - prevTime;
@@ -47,6 +45,10 @@ void jointSimulator::set_noise(double noise) {
 	this->noise = noise;
 }
 
+double jointSimulator::get_K() {
+        return K;
+}
+
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
     publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1KineaAngle", 10);
@@ -59,7 +61,7 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
                 message.data = simulator.get_angle();
 
 				// Publishes debug/message to the console.
-				RCLCPP_INFO(this->get_logger(), "Publishing: '%f'", message.data);
+				RCLCPP_INFO(this->get_logger(), "Publishing: '%f'", simulator.get_K());
                 // Kan også bruke "ros2 topic echo /angle"
 				// Aka: ros2 topic echo /Lab1KineaAngle
 
@@ -86,6 +88,10 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
 rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(const std::vector<rclcpp::Parameter> &params)
 {
+	
+	rcl_interfaces::msg::SetParametersResult result;
+	result.successful = false;
+	
 	for (const auto &param : params)
 	{
 		if (param.get_name() == "noise")
@@ -104,6 +110,8 @@ rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(
 			double K = param.as_double();
 			this->simulator.set_K(K);
 			RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", K);
+			
+			result.successful = true;
 		}
 		else if (param.get_name() == "T")
 		{
@@ -112,9 +120,6 @@ rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(
 			RCLCPP_INFO(this->get_logger(), "T parameter updated: %f", T);
 		}
 	}
-
-	rcl_interfaces::msg::SetParametersResult result;
-	result.successful = true;
 
 	return result;
 }
