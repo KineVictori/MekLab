@@ -49,7 +49,7 @@ void jointSimulator::set_noise(double noise) {
 
 jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
-    publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1Kinea", 10);
+    publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1KineaAngle", 10);
     auto timer_callback =
             [this]() -> void {
 
@@ -75,7 +75,7 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 
 			simulator.set_voltage(msg->data);
 		};
-	subscription_ = this->create_subscription<std_msgs::msg::Float64>("Lab1Kinea", 10, topic_callback);
+	subscription_ = this->create_subscription<std_msgs::msg::Float64>("Lab1KineaVoltage", 10, topic_callback);
 }
 
 
