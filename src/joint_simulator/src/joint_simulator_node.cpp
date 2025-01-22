@@ -50,7 +50,7 @@ double jointSimulator::get_K() {
         return this->K;
 }
 
-void publishMessage(double messageValue) {
+void jointSimulatorNode::publishMessage(double messageValue) {
 	auto message = std_msgs::msg::Float64();
     message.data = messageValue;
 	this->publisher_->publish(message);

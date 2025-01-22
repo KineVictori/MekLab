@@ -42,6 +42,8 @@ public:
 
     jointSimulatorNode();
 	void update();
+
+	void publishMessage(double messageData);
 	void readMessage(std_msgs::msg::Float64::UniquePtr msg);
 
 private:
