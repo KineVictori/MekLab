@@ -13,6 +13,10 @@ public:
   void update(double measured_value);
   void setReference(double new_reference);
   double get_voltage();
+
+  void setP(double kp);
+  void setI(double ki);
+  void setD(double kd);
 };
 
 
@@ -38,15 +42,27 @@ double pidController::get_voltage() {
   return voltage;
 }
 
+void pidController::setP(double kp) {
+  this->p = kp;
+}
+
+void pidController::setI(double ki) {
+  this->i = ki;
+}
+
+void pidController::setD(double kd) {
+  this->d = kd;
+}
 
 
 // ROS2-node
-#include <crono>
+#include <chrono>
 #include <memory>
 #include <string>
+#include <functional>
 
 #include <rclcpp/rclcpp.hpp>
-#include <std_msgs/msg/string.hpp>
+#include <std_msgs/msg/float64.hpp>
 
 using namespace std::chrono_literals;
 
@@ -56,40 +72,64 @@ private:
     double measured_value = msg->data;
 
     // oppdaterer PID med measured_value
-    pidController_.update(measured_value);
+    prevMeasuredAngle = measured_value; 
 
     // publiserer den oppdaterte voltage
-    publish_voltage();
+    // publish_voltage();
+    
+    RCLCPP_INFO(this->get_logger(), "Got angle: %f", measured_value);
+  }
+
+  void updatePID() {
+    pidController_.update(prevMeasuredAngle);
   }
 
   void publish_voltage() {
     auto message = std_msgs::msg::Float64();
     message.data = pidController_.get_voltage();
-    publisher_.publish(message);
+    this->publisher_->publish(message);
 
     RCLCPP_INFO(this->get_logger(), "Published voltage: %f", message.data);
   }
 
-  PIDController pidController_;
+  double prevMeasuredAngle = 0.0;
+  pidController pidController_;
   rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subscriber_;
+  
+  rclcpp::TimerBase::SharedPtr timerPublish_;
+  rclcpp::TimerBase::SharedPtr timerParams_;
+  rclcpp::TimerBase::SharedPtr timerUpdate_;
 
 public:
   PIDControllerNode()
-  : Node("pid_controller_node"), pid_controller_(1.0, 0.1, 0.05, 0.0) {
+  : Node("pid_controller_node"), pidController_(1.0, 0.1, 0.05, 0.0) {
 
     // publisher for voltage
-    publisher_ = this->create_publisher<std_msgs::msg::Float64>("voltage", 10);
+    publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1KineaVoltage", 10);
 
     // subscriber for measured_angle
     subscriber_ = this->create_subscription<std_msgs::msg::Float64>
-                  ("measured_angle", 10, std::bind(&PIDControllerNode::measurement_listener, this, std::placeholders::_1));
+                  ("Lab1KineaAngle", 10, std::bind(&PIDControllerNode::measurement_listener, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "PID controller node started");
+    
+    timerPublish_ = this->create_wall_timer(1000ms, std::bind(&PIDControllerNode::publish_voltage, this));
+    
+    timerUpdate_ = this->create_wall_timer(50ms, std::bind(&PIDControllerNode::updatePID, this));
   }
 };
 
+void PIDControllerNode::readParam() {
+  double myParam = this->get_parameter("kp").as_double();
+  pidController.setP(myParam);
 
+  myParam = this->get_parameter("ki").as_double();
+  pidController.setI(myParam);
+
+  myParam = this->get_parameter("kd").as_double();
+  pidController.setD(myParam);
+}
 
 // main
 int main(int argc, char *argv[]) {
