@@ -70,7 +70,7 @@ void jointSimulatorNode::update() {
 void jointSimulatorNode::readMessage(std_msgs::msg::Float64::UniquePtr msg) {
 	RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->data);
 
-	simulator.set_voltage(msg->data);
+	simulator.set_voltage(-1 * msg->data);
 }
 
 void jointSimulatorNode::readParam() {
