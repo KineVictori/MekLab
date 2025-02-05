@@ -119,7 +119,7 @@ public:
 
     RCLCPP_INFO(this->get_logger(), "PID controller node started");
     
-    timerPublish_ = this->create_wall_timer(1000ms, std::bind(&PIDControllerNode::publish_voltage, this));
+    timerPublish_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::publish_voltage, this));
     
     timerUpdate_ = this->create_wall_timer(50ms, std::bind(&PIDControllerNode::updatePID, this));
 
