@@ -101,9 +101,14 @@ private:
   rclcpp::TimerBase::SharedPtr timerParams_;
   rclcpp::TimerBase::SharedPtr timerUpdate_;
 
+
+
 public:
+  void readParam();
+
   PIDControllerNode()
   : Node("pid_controller_node"), pidController_(1.0, 0.1, 0.05, 0.0) {
+
 
     // publisher for voltage
     publisher_ = this->create_publisher<std_msgs::msg::Float64>("Lab1KineaVoltage", 10);
@@ -117,18 +122,32 @@ public:
     timerPublish_ = this->create_wall_timer(1000ms, std::bind(&PIDControllerNode::publish_voltage, this));
     
     timerUpdate_ = this->create_wall_timer(50ms, std::bind(&PIDControllerNode::updatePID, this));
+
+    this->declare_parameter("kp", 1.0);
+    this->declare_parameter("ki", 0.0);
+    this->declare_parameter("kd", 0.0);
+
+    //timerParams_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::readParam, this));
+
+    double kp = this->get_parameter("kp").as_double();
+    double ki = this->get_parameter("ki").as_double();
+    double kd = this->get_parameter("kd").as_double();
+
+    pidController_.setP(kp);
+    pidController_.setI(ki);
+    pidController_.setD(kd);
   }
 };
 
 void PIDControllerNode::readParam() {
   double myParam = this->get_parameter("kp").as_double();
-  pidController.setP(myParam);
+  pidController_.setP(myParam);
 
   myParam = this->get_parameter("ki").as_double();
-  pidController.setI(myParam);
+  pidController_.setI(myParam);
 
   myParam = this->get_parameter("kd").as_double();
-  pidController.setD(myParam);
+  pidController_.setD(myParam);
 }
 
 // main
