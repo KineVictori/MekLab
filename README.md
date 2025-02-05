@@ -25,5 +25,5 @@ Get param
 For å endre verdier
 run pid_controller runPID --ros-args -p kp:=10.0 -p kd:=1.0
 
-run pid_controller runPID --ros-args -p kp:=10.0 -p kd:=1.0
+ros2 param set /pid_controller_node kp 0.002
 
