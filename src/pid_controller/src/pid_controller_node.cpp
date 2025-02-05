@@ -126,16 +126,19 @@ public:
     this->declare_parameter("kp", 1.0);
     this->declare_parameter("ki", 0.0);
     this->declare_parameter("kd", 0.0);
+    this->declare_parameter("reference", 0.0);
 
-    //timerParams_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::readParam, this));
+    timerParams_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::readParam, this));
 
     double kp = this->get_parameter("kp").as_double();
     double ki = this->get_parameter("ki").as_double();
     double kd = this->get_parameter("kd").as_double();
+    double reference = this->get_parameter("reference").as_double();
 
     pidController_.setP(kp);
     pidController_.setI(ki);
     pidController_.setD(kd);
+    pidController_.setReference(reference);
   }
 };
 
@@ -148,6 +151,9 @@ void PIDControllerNode::readParam() {
 
   myParam = this->get_parameter("kd").as_double();
   pidController_.setD(myParam);
+
+  myParam = this->get_parameter("reference").as_double();
+  pidController_.setReference(myParam);
 }
 
 // main
