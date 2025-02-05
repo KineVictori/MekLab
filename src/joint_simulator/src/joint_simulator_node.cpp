@@ -23,7 +23,7 @@ void jointSimulator::update() {
     auto dt = duration.count();
 
     angle += dt * angular_velocity;
-    angular_velocity += dt * (-angular_velocity / T - K * voltage / T);
+    angular_velocity += dt * (-angular_velocity / T + K * voltage / T);
 }
 
 double jointSimulator::get_angle() {
@@ -70,7 +70,7 @@ void jointSimulatorNode::update() {
 void jointSimulatorNode::readMessage(std_msgs::msg::Float64::UniquePtr msg) {
 	RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->data);
 
-	simulator.set_voltage(-1 * msg->data);
+	simulator.set_voltage(msg->data);
 }
 
 void jointSimulatorNode::readParam() {
