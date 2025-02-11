@@ -8,9 +8,10 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(pid_controller_msgs REQUIRED)
 
 add_executable(runPID src/pid_controller_node.cpp)
-ament_target_dependencies(runPID rclcpp std_msgs)
+ament_target_dependencies(runPID rclcpp std_msgs pid_controller_msgs)
 
 install(TARGETS
   runPID

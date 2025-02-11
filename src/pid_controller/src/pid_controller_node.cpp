@@ -169,6 +169,17 @@ void add(const std::shared_ptr<pid_controller_msgs::srv::SetReference::Request> 
   request->request;
   double requested_reference = request->request;
 
+  const double pi = 3.14159265358979323846;
+  if (requested_reference > -pi and requested_reference < pi) {
+
+  }
+
+  er request mellom -pi og pi
+      oppdatere ref og return true
+      hvis ikke false
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Requested ref %f", requested_reference);
+
   bool did_it_work = true;
   response->success = did_it_work;
 }
@@ -179,7 +190,13 @@ void add(const std::shared_ptr<pid_controller_msgs::srv::SetReference::Request> 
 // main
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<PIDControllerNode>());
+
+  std::shared_ptr<rclcpp::Node> node = std::make_shared<PIDControllerNode>();
+
+  rclcpp::Service<pid_controller_msgs::srv::SetReference>::SharedPtr set_reference_srv =
+      node->create_service<pid_controller_msgs::srv::SetReference>("set_reference", &add);
+
+  rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;
 }
