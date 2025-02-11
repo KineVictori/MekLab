@@ -27,3 +27,5 @@ run pid_controller runPID --ros-args -p kp:=10.0 -p kd:=1.0
 
 ros2 param set /pid_controller_node kp 0.002
 
+Sende request i service / endre verdi
+ros2 service call /set_reference pid_controller_msgs/srv/SetReference "{value: 1.5}"
