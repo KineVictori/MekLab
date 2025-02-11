@@ -1,4 +1,5 @@
 
+// pid controller
 class pidController {
 private:
   double p, i, d;
@@ -155,6 +156,25 @@ void PIDControllerNode::readParam() {
   myParam = this->get_parameter("reference").as_double();
   pidController_.setReference(myParam);
 }
+
+
+// service node
+#include "rclcpp/rclcpp.hpp"
+#include <pid_controller_msgs/srv/set_reference.hpp>
+#include <memory>
+
+void add(const std::shared_ptr<pid_controller_msgs::srv::SetReference::Request> request,
+         std::shared_ptr<pid_controller_msgs::srv::SetReference::Response> response) {
+
+  request->request;
+  double requested_reference = request->request;
+
+  bool did_it_work = true;
+  response->success = did_it_work;
+}
+
+
+
 
 // main
 int main(int argc, char *argv[]) {
