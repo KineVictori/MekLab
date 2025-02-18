@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="pid_controller" exec="src/pid_controller_node" name="pid_controller" output="screen"/>
+  <node pkg="joint_simulator" exec="src/joint_simulator_node" name="joint_simulator" output="screen"/>
+  <node pkg="pid_controller_msgs" exec="src/reference_input_node" name="reference_input" output="screen"/>
+</launch>
+
