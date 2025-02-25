@@ -10,11 +10,17 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(pid_controller_msgs REQUIRED)
 
+include_directories(launch)
+
 add_executable(runPID src/pid_controller_node.cpp)
 ament_target_dependencies(runPID rclcpp std_msgs pid_controller_msgs)
 
 install(TARGETS
   runPID
   DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY launch
+	DESTINATION share/${PROJECT_NAME}
+)
 
 ament_package()

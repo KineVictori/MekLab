@@ -1,6 +1,6 @@
 <launch>
-  <node pkg="pid_controller" exec="runPID" name="pid_controller"/>
-  <node pkg="joint_simulator" exec="RunJointSim" name="joint_simulator"/>
-  <node pkg="pid_controller_msgs" exec="client" name="reference_input"/>
+  <node pkg="pid_controller" exec="runPID" name="pid_controller" namespace="pid_controller"/>
+  <node pkg="joint_simulator" exec="RunJointSim" name="joint_simulator" namespace="joint_simulator"/>
+  <node pkg="pid_controller_msgs" exec="client" name="reference_input" namespace="pid_controller_msgs"/>
 </launch>
 
