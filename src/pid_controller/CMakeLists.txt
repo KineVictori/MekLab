@@ -15,7 +15,11 @@ include_directories(launch)
 add_executable(runPID src/pid_controller_node.cpp)
 ament_target_dependencies(runPID rclcpp std_msgs pid_controller_msgs)
 
+add_executable(client src/reference_input_node.cpp)
+ament_target_dependencies(client rclcpp pid_controller_msgs)
+
 install(TARGETS
+  client
   runPID
   DESTINATION lib/${PROJECT_NAME})
 
