@@ -1,6 +1,17 @@
 <launch>
-  <node pkg="pid_controller" exec="runPID" name="pid_controller" namespace="pid_controller"/>
-  <node pkg="joint_simulator" exec="RunJointSim" name="joint_simulator" namespace="joint_simulator"/>
-  <node pkg="pid_controller" exec="client" name="reference_input" namespace="pid_controller"/>
+
+  <arg name="kp" default="0.01"/>
+  <arg name="ki" default="0.0"/>
+  <arg name="kd" default="0.0"/>
+
+  <node pkg="pid_controller" exec="runPID" name="pid_controller" namespace="NodeNamespace">
+    <param name="kp" value="$(var kp)"/>
+    <param name="ki" value="$(var ki)"/>
+    <param name="kd" value="$(var kd)"/>
+
+  </node>
+
+  <node pkg="joint_simulator" exec="RunJointSim" name="joint_simulator" namespace="NodeNamespace"/>
+  <node pkg="pid_controller" exec="client" name="reference_input" namespace="NodeNamespace"/>
 </launch>
 

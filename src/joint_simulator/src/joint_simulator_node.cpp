@@ -98,45 +98,4 @@ jointSimulatorNode::jointSimulatorNode(): Node("Joint_Simulator"), simulator() {
 	this->declare_parameter("T", 0.15);
 
 	timerParam_ = this->create_wall_timer(100ms, std::bind(&jointSimulatorNode::readParam, this));
-	// auto successReturn = this->add_on_set_parameters_callback(std::bind(&jointSimulatorNode::parameter_callback, this, std::placeholders::_1));
 }
-
-//rcl_interfaces::msg::SetParametersResult jointSimulatorNode::parameter_callback(const std::vector<rclcpp::Parameter> &params)
-//{
-//
-//	rcl_interfaces::msg::SetParametersResult result;
-//	result.successful = false;
-//
-//	// this->get_parameter("K", this->simulator.K);
-//
-//	for (const auto &param : params)
-//	{
-//		if (param.get_name() == "noise")
-//		{
-//			if (param.as_double() >= 0.0)
-//			{
-//				double noise = param.as_double();
-//				this->simulator.set_noise(noise);
-//				RCLCPP_INFO(this->get_logger(), "Noise parameter updated: %f", noise);
-//			} else {
-//				RCLCPP_INFO(this->get_logger(), "Noise parameter must be more than zero!");
-//			}
-//		}
-//		else if (param.get_name() == "K")
-//		{
-//			double K = param.as_double();
-//			this->simulator.set_K(K);
-//			RCLCPP_INFO(this->get_logger(), "K parameter updated: %f", K);
-//
-//			result.successful = true;
-//		}
-//		else if (param.get_name() == "T")
-//		{
-//			double T = param.as_double();
-//			this->simulator.set_T(T);
-//			RCLCPP_INFO(this->get_logger(), "T parameter updated: %f", T);
-//		}
-//	}
-//
-//	return result;
-//}

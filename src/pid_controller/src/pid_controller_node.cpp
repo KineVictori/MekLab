@@ -30,6 +30,7 @@ public:
   pidController(double kp, double ki, double kd, double ref);
   void update(double measured_value);
   void setReference(double new_reference);
+  double getReference();
   double get_voltage();
 
   void setP(double kp);
@@ -43,7 +44,7 @@ pidController::pidController(double kp, double ki, double kd, double ref)
       integral(0.0), previous_error(0.0), dt(0.1) {}
 
 void pidController::setReference(double new_reference) {
-  reference = new_reference;
+  this->reference = new_reference;
 }
 
 void pidController::update(double measured_value) {
@@ -54,6 +55,10 @@ void pidController::update(double measured_value) {
   voltage = p * error + i * integral + d * derivative;
 
   previous_error = error;
+}
+
+double pidController::getReference() {
+  return reference;
 }
 
 double pidController::get_voltage() {
@@ -99,7 +104,7 @@ private:
     message.data = pidController_.get_voltage();
     this->publisher_->publish(message);
 
-    RCLCPP_INFO(this->get_logger(), "Published voltage: %f", message.data);
+    RCLCPP_INFO(this->get_logger(), "Published voltage: %f ref is %f", message.data, pidController_.getReference());
   }
 
   double prevMeasuredAngle = 0.0;
@@ -169,7 +174,7 @@ public:
     this->declare_parameter("kd", 0.0);
     this->declare_parameter("reference", 0.0);
 
-    timerParams_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::readParam, this));
+    // timerParams_ = this->create_wall_timer(100ms, std::bind(&PIDControllerNode::readParam, this));
 
     double kp = this->get_parameter("kp").as_double();
     double ki = this->get_parameter("ki").as_double();
@@ -180,6 +185,8 @@ public:
     pidController_.setI(ki);
     pidController_.setD(kd);
     pidController_.setReference(reference);
+
+    RCLCPP_INFO(this->get_logger(), "Finished inti of pid_controller_node");
   }
 };
 
@@ -195,6 +202,7 @@ void PIDControllerNode::readParam() {
 
   myParam = this->get_parameter("reference").as_double();
   pidController_.setReference(myParam);
+  RCLCPP_INFO(this->get_logger(), "Got new reference %f", myParam);
 }
 
 
