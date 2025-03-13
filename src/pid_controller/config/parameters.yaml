@@ -1,0 +1,6 @@
+   
+/pid_controller/joint_simulator:
+   ros__parameters:
+      kp: 0.01
+      ki: 0.0
+      kd: 0.0
