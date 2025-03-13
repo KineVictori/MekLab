@@ -15,7 +15,7 @@ setup(
     zip_safe=True,
     maintainer='islandrock1',
     maintainer_email='oysteinmb@gmail.com',
-    description='TODO: Package description',
+    description='Driver package for MiniProject',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
