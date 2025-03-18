@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="qube" params="length:=0.1 width:=0.1 height:=0.1 disk_radius:=0.05 disk_thickness:=0.01">
+    
+    <!-- Description of qube -->
+
+    <link name="base_link">
+      <visual>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="disk">
+      <visual>
+        <geometry>
+          <cylinder radius="${disk_radius}" length="${disk_thickness}"/>
+        </geometry>
+        <material name="red">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${disk_radius}" length="${disk_thickness}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="base_to_disk" type="continuous">
+      <parent link="base_link"/>
+      <child link="disk"/>
+      <origin xyz="0 0 ${height/2 + disk_thickness/2}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="indicator">
+      <visual>
+        <geometry>
+          <box size="${disk_radius*0.8} ${disk_thickness} ${disk_thickness}"/>
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="disk_to_indicator" type="fixed">
+      <parent link="disk"/>
+      <child link="indicator"/>
+      <origin xyz="${disk_radius*0.4} 0 ${disk_thickness/2}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- End of Description -->
+
+  </xacro:macro>
+</robot>
