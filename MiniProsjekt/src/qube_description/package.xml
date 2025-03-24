@@ -3,7 +3,7 @@
   <name>qube_description</name>
   <version>0.0.1</version>
   <description>Package to describe the Qube robot using URDF and Xacro</description>
-  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <maintainer email="kine.aurora@hotmail.com">Kine</maintainer>
   <license>Apache-2.0</license>
 
   <!-- Build tool dependencies -->

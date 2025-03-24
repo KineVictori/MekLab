@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Macro-parametre -->
-  <xacro:property name="base_length" value="0.1" />
-  <xacro:property name="base_width" value="0.1" />
-  <xacro:property name="base_height" value="0.1" />
-  <xacro:property name="disk_radius" value="0.05" />
-  <xacro:property name="disk_height" value="0.02" />
-  <xacro:property name="pointer_length" value="0.04" />
-  <xacro:property name="pointer_radius" value="0.005" />
+  <xacro:property name="base_length" value="1" />
+  <xacro:property name="base_width" value="1" />
+  <xacro:property name="base_height" value="1" />
+  <xacro:property name="disk_radius" value="0.5" />
+  <xacro:property name="disk_height" value="0.2" />
+  <xacro:property name="pointer_length" value="0.4" />
+  <xacro:property name="pointer_radius" value="0.05" />
 
   <xacro:macro name="qube">
     <!-- Base -->
     <link name="base_link">
+      <inertial>
+        <mass value="1" />
+        <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0" ixz="0" iyz="0" />
+      </inertial>
       <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${base_length} ${base_width} ${base_height}"/>
         </geometry>
@@ -24,7 +29,12 @@
 
     <!-- Roterende disk -->
     <link name="rotating_disk">
+      <inertial>
+        <mass value="0.5" />
+        <inertia ixx="0.05" iyy="0.05" izz="0.05" ixy="0" ixz="0" iyz="0" />
+      </inertial>
       <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="${disk_radius}" length="${disk_height}"/>
         </geometry>
@@ -43,7 +53,12 @@
 
     <!-- Hvit viser -->
     <link name="pointer">
+      <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0" />
+      </inertial>
       <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="${pointer_radius}" length="${pointer_length}"/>
         </geometry>
