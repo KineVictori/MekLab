@@ -12,12 +12,7 @@
   <xacro:macro name="qube">
     <!-- Base -->
     <link name="base_link">
-      <inertial>
-        <mass value="1" />
-        <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0" ixz="0" iyz="0" />
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${base_length} ${base_width} ${base_height}"/>
         </geometry>
@@ -25,16 +20,16 @@
           <color rgba="0 0 0 1"/>
         </material>
       </visual>
+      <inertial>
+        <mass value="1.0"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+      </inertial>
     </link>
 
     <!-- Roterende disk -->
     <link name="rotating_disk">
-      <inertial>
-        <mass value="0.5" />
-        <inertia ixx="0.05" iyy="0.05" izz="0.05" ixy="0" ixz="0" iyz="0" />
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="${disk_radius}" length="${disk_height}"/>
         </geometry>
@@ -42,6 +37,11 @@
           <color rgba="1 0 0 1"/>
         </material>
       </visual>
+      <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05"/>
+      </inertial>
     </link>
 
     <joint name="disk_joint" type="continuous">
@@ -53,12 +53,7 @@
 
     <!-- Hvit viser -->
     <link name="pointer">
-      <inertial>
-        <mass value="0.1" />
-        <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0" />
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="${pointer_radius}" length="${pointer_length}"/>
         </geometry>
@@ -66,6 +61,11 @@
           <color rgba="1 1 1 1"/>
         </material>
       </visual>
+      <inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
     </link>
 
     <joint name="pointer_joint" type="fixed">
