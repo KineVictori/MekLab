@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="qube_scene">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find qube_description)/urdf/qube.macro.xacro" />
-
+  
+  <!-- World link -->
   <link name="world"/>
 
+  <!-- Instansier Qube-makro -->
   <xacro:qube/>
 
-  <joint name="world_to_base" type="fixed">
+  <!-- Fest base_link til world -->
+  <joint name="world_base_joint" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0"/>
   </joint>
 </robot>
