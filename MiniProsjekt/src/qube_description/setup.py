@@ -4,6 +4,10 @@ from glob import glob
 
 package_name = 'qube_description'
 
+# setup() funksjonen er en del av setuptools biblioteket, og brukes til å konfigurere
+# installasjonen av pakken. Den tar en rekke argumenter som navn, versjon, avhengigheter,
+# og filer som skal inkluderes i installasjonen.
+
 setup(
     name=package_name,
     version='0.0.1',
@@ -15,7 +19,6 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
         (os.path.join('share', package_name, 'urdf'), glob('urdf/*')),
         (os.path.join('share', package_name, 'rviz'), glob('rviz/*.rviz')),
-
     ],
     install_requires=['setuptools'],
     zip_safe=True,
