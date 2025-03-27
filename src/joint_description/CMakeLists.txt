@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rviz2 REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME}/)
+install(DIRECTORY config DESTINATION share/${PROJECT_NAME}/)
 install(DIRECTORY urdf DESTINATION share/${PROJECT_NAME}/)
 
 
