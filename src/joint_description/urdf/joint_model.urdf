@@ -1,49 +1,29 @@
 <?xml version="1.0"?>
-<robot name="joint_model">
-    <!-- Material definitions -->
-    <material name="black">
-        <color rgba="0 0 0 1"/>
-    </material>
-    <material name="red">
-        <color rgba="1 0 0 1"/>
-    </material>
-    <material name="white">
-        <color rgba="1 1 1 1"/>
-    </material>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="joint_model">
+    
+    <xacro:include filename="$(find joint_description)/urdf/joint_model.macro.urdf"/>
+
+    <xacro:property name="box_width" value="0.102" />
+    <xacro:property name="radius" value="0.025" />
+    <xacro:property name="length" value="0.01" />
+
+    <xacro:property name="indicatorLength" value="0.025" />
+    <xacro:property name="indicatorSize" value="0.002" />
 
     <!-- Links -->
     <link name="world"/>
-
     <link name="base_link"/>
 
-    <link name="stator_link">
-        <visual>
-            <geometry>
-                <box size="0.102 0.102 0.102"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-    </link>
+    <xacro:RobotBox
+        box_width="${box_width}"
+        radius="${radius}"
+        length="${length}"
 
-    <link name="rotor_link">
-        <visual>
-            <geometry>
-                <cylinder radius="0.025" length="0.01"/>
-            </geometry>
-            <material name="red"/>
-        </visual>
-    </link>
+        indicatorLength="${indicatorLength}"
+        indicatorSize="${indicatorSize}"
+        >
+    </xacro:RobotBox>
 
-    <link name="angle_link">
-        <visual>
-            <geometry>
-                <box size="0.025 0.002 0.002"/>
-            </geometry>
-            <material name="white"/>
-        </visual>
-    </link>
-
-    <!-- Joints -->
     <joint name="base_joint" type="fixed">
         <parent link="world"/>
         <child link="base_link"/>
@@ -56,17 +36,4 @@
         <origin xyz="0 0 0.051" rpy="0 0 0"/>
     </joint>
 
-    <joint name="angle" type="revolute">
-        <parent link="stator_link"/>
-        <child link="rotor_link"/>
-        <origin xyz="0 0 0.056" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-        <limit lower="-3.14" upper="3.14" effort="10" velocity="5"/>
-    </joint>
-
-    <joint name="indicator" type="fixed">
-        <parent link="rotor_link"/>
-        <child link="angle_link"/>
-        <origin xyz="0.0125 0 0.006" rpy="0 0 0"/>
-    </joint>
 </robot>
