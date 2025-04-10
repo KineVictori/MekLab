@@ -4,8 +4,8 @@
   <xacro:include filename="$(find qube_driver)/ros2_control/qube_driver.ros2_control.xacro" />
   
   <xacro:arg name="baud_rate" default="115200"/> <!-- standard baud rate-->
-  <xacro:arg name="device" default="ttyACM0"/>  <!-- comport: ttyACM0 -->
-  <xacro:arg name="simulation" default="true"/> <!-- true/false-->
+  <xacro:arg name="device" default="/dev/ttyACM0"/>  <!-- comport: ttyACM0 -->
+  <xacro:arg name="simulation" default="false"/> <!-- true/false-->
 
   <xacro:qube_driver_ros2_control
     name="QubeDriver"

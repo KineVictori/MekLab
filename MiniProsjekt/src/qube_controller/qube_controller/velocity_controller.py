@@ -8,8 +8,8 @@ class QubeController(Node):
         super().__init__('qube_controller')
         
         # PID-parametre
-        self.kp = 2.0
-        self.ki = 0.1
+        self.kp = 20.0
+        self.ki = 2.0
         self.kd = 1.0
         self.integral = 0.0
         self.prev_error = 0.0

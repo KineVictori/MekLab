@@ -23,6 +23,13 @@ def generateRViz(pkg_share):
             arguments = ['d', [os.path.join(pkg_share, 'config', 'Config.rviz')]]
         )
 
+def generateGUI():
+    return Node(
+            package='joint_state_publisher_gui',
+            executable='joint_state_publisher_gui',
+            name='joint_state_publisher_gui'
+        )
+
 def generateRobotStateController(pkg_share):
     urdf_file = os.path.join(pkg_share, "urdf", "controller_qube.urdf.xacro")
     print(urdf_file)
@@ -39,6 +46,13 @@ def generateRobotStateController(pkg_share):
             }]
         )
 
+def generateQubeController():
+    return Node(
+        package="qube_controller",
+        executable="velocity_controller",
+        name="qube_controller"
+    )
+
 def generate_launch_description():
     python_launch_share = get_package_share_directory('qube_driver')
     rviz_share = get_package_share_directory("qube_bringup")
@@ -47,5 +61,6 @@ def generate_launch_description():
     return LaunchDescription([
         generatePythonLaunch(python_launch_share),
         generateRViz(rviz_share),
-        generateRobotStateController(robot_state_share)
+        generateRobotStateController(robot_state_share),
+        generateQubeController()
     ])
