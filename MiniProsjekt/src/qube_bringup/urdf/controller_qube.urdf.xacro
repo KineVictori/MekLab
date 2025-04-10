@@ -3,18 +3,17 @@
   <xacro:include filename="$(find qube_description)/urdf/qube.macro.xacro" />
   <xacro:include filename="$(find qube_driver)/ros2_control/qube_driver.ros2_control.xacro" />
   
-  <xacro:arg name="baud_rate" value="115200"/> <!-- standard baud rate-->
-  <xacro:arg name="device" value="ttyACM0"/>  <!-- comport: ttyACM0 -->
-  <xacro:arg name="simulation" value="true"/> <!-- true/false-->
+  <xacro:arg name="baud_rate" default="115200"/> <!-- standard baud rate-->
+  <xacro:arg name="device" default="ttyACM0"/>  <!-- comport: ttyACM0 -->
+  <xacro:arg name="simulation" default="true"/> <!-- true/false-->
 
   <xacro:qube_driver_ros2_control
-    name="qube_driver",
-    prefix="",
-    baud_rate=$(arg baud_rate),
-    device=$(arg device),
-    simulation=$(arg simulation)
-  >
-  </xacro:qube_driver_ros2_control>
+    name="QubeDriver"
+    prefix=""
+    baud_rate="$(arg baud_rate)"
+    device="$(arg device)"
+    simulation="$(arg simulation)"
+  />
 
   <!-- World link -->
   <link name="world"/>

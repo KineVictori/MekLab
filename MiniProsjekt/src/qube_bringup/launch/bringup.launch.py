@@ -25,6 +25,7 @@ def generateRViz(pkg_share):
 
 def generateRobotStateController(pkg_share):
     urdf_file = os.path.join(pkg_share, "urdf", "controller_qube.urdf.xacro")
+    print(urdf_file)
     qube_controller = xacro.process_file(urdf_file).toxml()
 
     return Node(
