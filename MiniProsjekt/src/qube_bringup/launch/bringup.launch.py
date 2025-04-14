@@ -7,6 +7,8 @@ import os
 import xacro
 
 def generatePythonLaunch(pkg_share):
+    # Creates the qube_driver launch node.
+
     return IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [os.path.join(pkg_share, "launch", "qube_driver.launch.py")]
@@ -14,6 +16,8 @@ def generatePythonLaunch(pkg_share):
         )
 
 def generateRViz(pkg_share):
+    # Creates the rwiz launch node.
+
     return Node(
             package='rviz2',
             executable='rviz2',
@@ -24,6 +28,8 @@ def generateRViz(pkg_share):
         )
 
 def generateGUI():
+    # Creates the GUI node.
+
     return Node(
             package='joint_state_publisher_gui',
             executable='joint_state_publisher_gui',
@@ -31,6 +37,11 @@ def generateGUI():
         )
 
 def generateRobotStateController(pkg_share):
+    """
+    Starts by prepping the xacro file, then creating the
+    robot state publisher node.
+    """
+
     urdf_file = os.path.join(pkg_share, "urdf", "controller_qube.urdf.xacro")
     print(urdf_file)
     qube_controller = xacro.process_file(urdf_file).toxml()
@@ -47,6 +58,8 @@ def generateRobotStateController(pkg_share):
         )
 
 def generateQubeController():
+    # Creates the qube_controller node (PID).
+
     return Node(
         package="qube_controller",
         executable="velocity_controller",
@@ -54,6 +67,14 @@ def generateQubeController():
     )
 
 def generate_launch_description():
+    """
+    Generates the launch description.
+
+    Starts by getting the relevant file paths,
+    then calling different functions to get the nodes.
+    """
+    
+
     python_launch_share = get_package_share_directory('qube_driver')
     rviz_share = get_package_share_directory("qube_bringup")
     robot_state_share = get_package_share_directory("qube_bringup")

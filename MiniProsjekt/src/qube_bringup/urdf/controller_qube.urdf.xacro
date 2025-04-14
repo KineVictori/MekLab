@@ -3,9 +3,23 @@
   <xacro:include filename="$(find qube_description)/urdf/qube.macro.xacro" />
   <xacro:include filename="$(find qube_driver)/ros2_control/qube_driver.ros2_control.xacro" />
   
+  <!-- 
+  Starts by making the relevant arguments for the physical cube connection.
+  Uses the default baud rate, and the first usb port.
+  
+  Simulation decides if a physical connection is established or not,
+  so for true (aka simulation mode) comunication will not be established.
+  While for false (aka physical mode) the comunication will be established
+  and used for the GUI and such.
+  -->
+
   <xacro:arg name="baud_rate" default="115200"/> <!-- standard baud rate-->
   <xacro:arg name="device" default="/dev/ttyACM0"/>  <!-- comport: ttyACM0 -->
   <xacro:arg name="simulation" default="false"/> <!-- true/false-->
+
+  <!-- 
+  After the args are done, theres a call to create the control for the qube driver.
+   -->
 
   <xacro:qube_driver_ros2_control
     name="QubeDriver"
@@ -14,6 +28,10 @@
     device="$(arg device)"
     simulation="$(arg simulation)"
   />
+
+  <!-- 
+  Then we need to link the base_link to the worls link with a joint.
+   -->
 
   <!-- World link -->
   <link name="world"/>

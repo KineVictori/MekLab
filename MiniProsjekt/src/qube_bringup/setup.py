@@ -9,7 +9,10 @@ setup(
     version='0.0.0',
     packages=find_packages(exclude=['test']),
     
-    
+    # In data_files we say witch files are needed and used.
+    # Here we start by adding the package, and package.xml files.
+    # Then we need to add the setup files we created,
+    # as well as the urdf and xacro files needed for the launch file.
     
     data_files=[
         ('share/ament_index/resource_index/packages',
